@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "placement-new",
+    "placement-new-derive",
+]
