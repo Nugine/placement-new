@@ -3,19 +3,21 @@ use core::mem::MaybeUninit;
 /// A type with determined layout.
 /// It can be projected to another type with the same fields,
 /// but all the fields are not initialized yet.
-pub unsafe trait UninitProject: Sized {
-    /// The uninitialized mirror type of `Self`.
-    type Output;
-
+pub unsafe trait UninitProject<U>: Sized {
     /// Projects a type to its uninitialized mirror.
-    fn uninit_project(this: &mut MaybeUninit<Self>) -> &mut Self::Output {
-        unsafe { &mut *this.as_mut_ptr().cast() }
-    }
+    fn uninit_project(this: &mut MaybeUninit<Self>) -> &mut U;
 }
 
 /// Projects a type to its uninitialized mirror.
-pub fn uninit_project<T: UninitProject>(this: &mut MaybeUninit<T>) -> &mut T::Output {
-    UninitProject::uninit_project(this)
+#[cfg(feature = "derive")]
+#[macro_export]
+macro_rules! uninit_project {
+    ($this:expr) => {{
+        $crate::UninitProject::<_>::uninit_project($this)
+    }};
+    ($this:expr => enum $ty:path => $variant:ident) => {{
+        $crate::__private::__uninit_project_variant!($ty => $variant)($this)
+    }};
 }
 
 // unsafe impl<T, const N: usize> UninitProject for [T; N] {
@@ -25,8 +27,10 @@ pub fn uninit_project<T: UninitProject>(this: &mut MaybeUninit<T>) -> &mut T::Ou
 macro_rules! impl_UninitProject_for_array {
     ($($N:tt,)+) => {
         $(
-            unsafe impl<T> UninitProject for [T; $N] {
-                type Output = [MaybeUninit<T>; $N];
+            unsafe impl<T> UninitProject<[MaybeUninit<T>; $N]> for [T; $N] {
+                fn uninit_project(this: &mut MaybeUninit<Self>) -> &mut [MaybeUninit<T>; $N] {
+                    unsafe { &mut *this.as_mut_ptr().cast() }
+                }
             }
         )+
     }

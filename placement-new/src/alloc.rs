@@ -22,6 +22,12 @@ unsafe fn dyn_emplace(
     a: unsafe fn(Layout) -> *mut u8,
     f: impl FnOnce(*mut ()),
 ) -> *mut () {
+    if layout.size() == 0 {
+        let ptr = layout.align() as *mut ();
+        f(ptr);
+        return ptr;
+    }
+
     let ptr = a(layout).cast::<()>();
     if ptr.is_null() {
         handle_alloc_error(layout)

@@ -2,4 +2,5 @@
 members = [
     "placement-new",
     "placement-new-derive",
+    "examples",
 ]

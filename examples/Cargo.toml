@@ -1,8 +1,9 @@
 [package]
-name = "placement-new-derive"
+name = "examples"
 version = "0.2.0-dev"
 authors = ["Nugine <nugine@foxmail.com>"]
 edition = "2018"
+publish = false
 description = "Common utilities to implement \"placement-new\""
 license = "MIT"
 repository = "https://github.com/Nugine/placement-new"
@@ -12,9 +13,5 @@ categories = ["memory-management", "no-std"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[lib]
-proc-macro = true
-
 [dependencies]
-quote = "1.0"
-syn = { version = "1.0", features = ["full"] }
+placement-new = { path = "../placement-new" }

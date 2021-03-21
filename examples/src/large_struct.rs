@@ -20,7 +20,7 @@ impl State {
     pub fn init(this: &mut MaybeUninit<Self>) {
         Self::init_zeroed(this);
 
-        let this = uninit_project(this);
+        let this = uninit_project!(this);
         overwrite(&mut this.a, 0);
         memset_zeroed(&mut this.e)
     }
@@ -28,12 +28,12 @@ impl State {
     /// Initializes a [`State`] partially.
     /// Assumes that `this` is filled with zero.
     pub fn init_zeroed(this: &mut MaybeUninit<Self>) {
-        let this = uninit_project(this);
+        let this = uninit_project!(this);
 
         overwrite(&mut this.b, String::new());
         overwrite(&mut this.c, HashMap::new());
 
-        for v in uninit_project(&mut this.d) {
+        for v in uninit_project!(&mut this.d) {
             overwrite(v, Vec::new())
         }
     }

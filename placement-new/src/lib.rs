@@ -15,6 +15,9 @@ mod place;
 
 mod uninit;
 
+#[doc(hidden)]
+pub mod __private;
+
 #[cfg(feature = "alloc")]
 pub use self::alloc::*;
 
