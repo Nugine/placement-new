@@ -1,6 +1,6 @@
 [package]
 name = "placement-new-derive"
-version = "0.2.0-dev"
+version = "0.2.0"
 authors = ["Nugine <nugine@foxmail.com>"]
 edition = "2018"
 description = "Common utilities to implement \"placement-new\""
