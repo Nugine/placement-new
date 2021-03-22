@@ -4,9 +4,9 @@ use core::mem::MaybeUninit;
 pub trait SinglePlace<T> {
     /// # Safety
     /// `f` must initialize `T` correctly.
-    unsafe fn emplace_by(f: impl FnOnce(&mut MaybeUninit<T>)) -> Self;
+    unsafe fn emplace_with(f: impl FnOnce(&mut MaybeUninit<T>)) -> Self;
 
     /// # Safety
     /// `f` must initialize `T` correctly.
-    unsafe fn emplace_zeroed_by(f: impl FnOnce(&mut MaybeUninit<T>)) -> Self;
+    unsafe fn emplace_zeroed_with(f: impl FnOnce(&mut MaybeUninit<T>)) -> Self;
 }

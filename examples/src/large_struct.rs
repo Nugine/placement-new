@@ -42,7 +42,7 @@ impl State {
         // # Safety
         // The allocated memory is filled with zero.
         // So `init_zeroed` can initializes `Self` correctly.
-        unsafe { Box::emplace_zeroed_by(Self::init_zeroed) }
+        unsafe { Box::emplace_zeroed_with(Self::init_zeroed) }
     }
 }
 

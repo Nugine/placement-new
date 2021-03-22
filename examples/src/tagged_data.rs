@@ -21,7 +21,7 @@ impl Data {
         let align = mem::align_of::<Header>();
         let layout = Layout::from_size_align(size, align).expect("invalid layout");
 
-        let ptr = placement_new::emplace_zeroed_by(layout, |ptr| unsafe {
+        let ptr = placement_new::emplace_zeroed_with(layout, |ptr| unsafe {
             ptr.cast::<Header>().write(Header { name, len })
         });
 

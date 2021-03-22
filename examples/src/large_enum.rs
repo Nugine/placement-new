@@ -39,7 +39,7 @@ impl State {
     }
 
     pub fn new_boxed_e() -> Box<Self> {
-        unsafe { Box::emplace_zeroed_by(Self::init_e) }
+        unsafe { Box::emplace_zeroed_with(Self::init_e) }
     }
 }
 
