@@ -1,7 +1,14 @@
 //! Common utilities to implement "placement-new".
 
 #![no_std]
-#![deny(missing_docs, clippy::all, clippy::cargo)]
+#![deny(
+    missing_docs,
+    clippy::all,
+    clippy::pedantic,
+    clippy::nursery,
+    clippy::cargo
+)]
+#![allow(clippy::module_name_repetitions)]
 
 #[cfg(feature = "alloc")]
 extern crate alloc as rust_alloc;
@@ -13,6 +20,8 @@ mod guard;
 
 mod place;
 
+mod slice;
+
 mod uninit;
 
 #[doc(hidden)]
@@ -22,6 +31,8 @@ pub mod __private;
 pub use self::alloc::*;
 
 pub use self::place::*;
+
+pub use self::slice::*;
 
 pub use self::uninit::*;
 

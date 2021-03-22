@@ -13,6 +13,7 @@ struct Header {
 }
 
 impl Data {
+    #[must_use]
     pub fn new_zeroed(name: &'static str, len: usize) -> Self {
         let size = mem::size_of::<Header>()
             .checked_add(len)
@@ -28,26 +29,32 @@ impl Data {
         Self(ptr.cast())
     }
 
+    #[allow(clippy::missing_const_for_fn)] // FIXME: false positive
     fn header(&self) -> &Header {
         unsafe { &*self.0.cast() }
     }
 
+    #[allow(clippy::missing_const_for_fn)] // FIXME: false positive
     fn raw_mut_body(&self) -> *mut u8 {
         unsafe { self.0.cast::<u8>().add(mem::size_of::<Header>()) }
     }
 
+    #[must_use]
     pub fn name(&self) -> &str {
         self.header().name
     }
 
+    #[must_use]
     pub fn len(&self) -> usize {
         self.header().len
     }
 
+    #[must_use]
     pub fn is_empty(&self) -> bool {
         self.len() == 0
     }
 
+    #[must_use]
     pub fn as_bytes(&self) -> &[u8] {
         let len = self.len();
         let ptr = self.raw_mut_body();

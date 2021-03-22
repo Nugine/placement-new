@@ -1,13 +1,21 @@
 //! "placement-new" derive macros
 
 #![forbid(unsafe_code)]
-#![deny(missing_docs, clippy::all, clippy::cargo)]
+#![deny(
+    missing_docs,
+    clippy::all,
+    clippy::pedantic,
+    clippy::nursery,
+    clippy::cargo
+)]
+#![allow(clippy::module_name_repetitions)]
 
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
 use quote::{format_ident, quote};
 use syn::parse::Parse;
+use syn::token::{Semi, Struct};
 use syn::{Data, DataStruct, DeriveInput, Field, Fields, Ident, ItemStruct, Path, Token, Type};
 
 macro_rules! emit_error {
@@ -132,12 +140,11 @@ fn impl_UninitProject_for_enum(ast: &DeriveInput) -> TokenStream {
             vis: ast.vis.clone(),
             generics: ast.generics.clone(),
             ident: format_ident!("__UninitEnumVariant__{}__{}", name, v.ident),
-            struct_token: Default::default(),
+            struct_token: Struct::default(),
             fields: project_fields(&v.fields),
             semi_token: match v.fields {
                 Fields::Named(_) => None,
-                Fields::Unnamed(_) => Some(Default::default()),
-                Fields::Unit => Some(Default::default()),
+                Fields::Unnamed(_) | Fields::Unit => Some(Semi::default()),
             },
         });
     }

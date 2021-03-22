@@ -43,11 +43,13 @@ impl_UninitProject_for_array!(17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29
 impl_UninitProject_for_array!(64, 128, 256, 512, 1024, 2048, 4096,);
 
 /// Sets the content of `T` to zero.
+#[inline]
 pub fn memset_zeroed<T>(this: &mut MaybeUninit<T>) {
     unsafe { this.as_mut_ptr().write_bytes(0, 1) }
 }
 
 /// Overwrites the content of `T`.
+#[inline]
 pub fn overwrite<T>(this: &mut MaybeUninit<T>, value: T) {
     unsafe { this.as_mut_ptr().write(value) }
 }

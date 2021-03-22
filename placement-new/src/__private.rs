@@ -2,6 +2,8 @@
 
 pub use core;
 
+#[allow(clippy::missing_const_for_fn)] // FIXME: false positive
+#[inline]
 pub unsafe fn split_enum<T, P>(base: *mut ()) -> (*mut T, *mut P) {
     let base = base.cast::<u8>();
     let tag = base.cast::<T>();

@@ -38,10 +38,11 @@ impl State {
         }
     }
 
+    #[must_use]
     pub fn new_boxed() -> Box<Self> {
         // # Safety
         // The allocated memory is filled with zero.
-        // So `init_zeroed` can initializes `Self` correctly.
+        // So `init_zeroed` can initialize `Self` correctly.
         unsafe { Box::emplace_zeroed_with(Self::init_zeroed) }
     }
 }
@@ -53,7 +54,7 @@ fn check_boxed() {
     assert!(s.a == 0);
     assert!(s.b.is_empty());
     assert!(s.c.is_empty());
-    assert!(s.d.iter().all(|v| v.is_empty()));
+    assert!(s.d.iter().all(Vec::is_empty));
     assert!(s.e.iter().fold(0, |acc, x| acc | x) == 0);
 
     drop(s);

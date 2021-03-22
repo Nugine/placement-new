@@ -16,17 +16,17 @@ pub enum State {
 
 impl State {
     pub fn init_a(this: &mut MaybeUninit<Self>) {
-        uninit_project!(this => enum State => A);
+        uninit_project!(this => enum Self => A);
     }
 
     pub fn init_d(this: &mut MaybeUninit<Self>, name: String, value: String) {
-        let this = uninit_project!(this => enum State => D);
+        let this = uninit_project!(this => enum Self => D);
         overwrite(&mut this.name, name);
         overwrite(&mut this.value, value);
     }
 
     pub fn init_e(this: &mut MaybeUninit<Self>) {
-        let this = uninit_project!(this => enum State => E);
+        let this = uninit_project!(this => enum Self => E);
         memset_zeroed(&mut this.data);
     }
 
@@ -38,6 +38,7 @@ impl State {
         }
     }
 
+    #[must_use]
     pub fn new_boxed_e() -> Box<Self> {
         unsafe { Box::emplace_zeroed_with(Self::init_e) }
     }
