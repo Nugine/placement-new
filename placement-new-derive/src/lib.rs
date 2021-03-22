@@ -131,7 +131,7 @@ fn impl_UninitProject_for_enum(ast: &DeriveInput) -> TokenStream {
             attrs: v.attrs.clone(),
             vis: ast.vis.clone(),
             generics: ast.generics.clone(),
-            ident: format_ident!("__UninitEnumVariant__{}", v.ident),
+            ident: format_ident!("__UninitEnumVariant__{}__{}", name, v.ident),
             struct_token: Default::default(),
             fields: project_fields(&v.fields),
             semi_token: match v.fields {

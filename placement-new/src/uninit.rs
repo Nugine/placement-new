@@ -20,8 +20,10 @@ macro_rules! uninit_project {
     }};
 }
 
-// unsafe impl<T, const N: usize> UninitProject for [T; N] {
-//     type Output = [MaybeUninit<T>; N];
+// unsafe impl<T, const N: usize> UninitProject<[MaybeUninit<T>; N]> for [T; N] {
+//     fn uninit_project(this: &mut MaybeUninit<Self>) -> &mut [MaybeUninit<T>; N] {
+//         unsafe { &mut *this.as_mut_ptr().cast() }
+//     }
 // }
 
 macro_rules! impl_UninitProject_for_array {
