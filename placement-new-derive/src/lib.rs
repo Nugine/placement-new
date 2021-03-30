@@ -31,6 +31,7 @@ macro_rules! emit_error {
 }
 
 /// Implements `UninitProject` for a type and generates corresponding types.
+#[allow(clippy::missing_panics_doc)]
 #[proc_macro_derive(UninitProject)]
 pub fn uninit_project(input: TokenStream) -> TokenStream {
     impl_UninitProject(&syn::parse(input).unwrap())

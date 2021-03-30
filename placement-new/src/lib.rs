@@ -16,6 +16,8 @@ extern crate alloc as rust_alloc;
 #[cfg(feature = "alloc")]
 mod alloc;
 
+mod array;
+
 mod guard;
 
 mod place;
@@ -29,6 +31,8 @@ pub mod __private;
 
 #[cfg(feature = "alloc")]
 pub use self::alloc::*;
+
+pub use self::array::*;
 
 pub use self::place::*;
 

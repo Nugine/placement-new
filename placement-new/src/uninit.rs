@@ -20,27 +20,11 @@ macro_rules! uninit_project {
     }};
 }
 
-// unsafe impl<T, const N: usize> UninitProject<[MaybeUninit<T>; N]> for [T; N] {
-//     fn uninit_project(this: &mut MaybeUninit<Self>) -> &mut [MaybeUninit<T>; N] {
-//         unsafe { &mut *this.as_mut_ptr().cast() }
-//     }
-// }
-
-macro_rules! impl_UninitProject_for_array {
-    ($($N:tt,)+) => {
-        $(
-            unsafe impl<T> UninitProject<[MaybeUninit<T>; $N]> for [T; $N] {
-                fn uninit_project(this: &mut MaybeUninit<Self>) -> &mut [MaybeUninit<T>; $N] {
-                    unsafe { &mut *this.as_mut_ptr().cast() }
-                }
-            }
-        )+
+unsafe impl<T, const N: usize> UninitProject<[MaybeUninit<T>; N]> for [T; N] {
+    fn uninit_project(this: &mut MaybeUninit<Self>) -> &mut [MaybeUninit<T>; N] {
+        unsafe { &mut *this.as_mut_ptr().cast() }
     }
 }
-
-impl_UninitProject_for_array!(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,);
-impl_UninitProject_for_array!(17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,);
-impl_UninitProject_for_array!(64, 128, 256, 512, 1024, 2048, 4096,);
 
 /// Sets the content of `T` to zero.
 #[inline]
